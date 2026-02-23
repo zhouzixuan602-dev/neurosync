@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全球同频 - BUZZ脑科学研究院</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: #F9FAFB;
+            color: #1F2937;
+            line-height: 1.6;
+        }
+        
+        /* 顶部横幅 */
+        .banner {
+            background: linear-gradient(135deg, #FF6B00, #FF8C42);
+            color: white;
+            padding: 12px 24px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        /* 导航栏 */
+        .header {
+            background: white;
+            border-bottom: 1px solid #E5E7EB;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 72px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0052D9;
+        }
+        
+        .logo-emoji { font-size: 32px; margin-right: 12px; }
+        
+        .nav-items {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .nav-item {
+            color: #1F2937;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-item:hover { color: #0052D9; }
+        
+        .lang-btn {
+            padding: 8px 16px;
+            border: 1px solid #E5E7EB;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        /* 英雄区 */
+        .hero {
+            background: linear-gradient(135deg, #0052D9, #1890FF);
+            color: white;
+            padding: 80px 24px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 32px;
+            opacity: 0.95;
+        }
+        
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 16px 120px 16px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .search-box button {
+            position: absolute;
+            right: 4px;
+            top: 4px;
+            bottom: 4px;
+            padding: 0 32px;
+            background: #FF6B00;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        /* 统计栏 */
+        .stats {
+            background: white;
+            padding: 32px 24px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+        
+        .stats-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            color: #6B7280;
+            font-size: 14px;
+        }
+        
+        /* 主内容 */
+        .main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+        
+        .section-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 32px;
+            padding-left: 16px;
+            border-left: 4px solid #0052D9;
+        }
+        
+        /* 论文网格 */
+        .papers {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+        
+        .paper {
+            background: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+        
+        .paper:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+        
+        .paper-date {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #F0F7FF;
+            color: #0052D9;
+            border-radius: 4px;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+        
+        .paper h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #1F2937;
+        }
+        
+        .paper p {
+            color: #6B7280;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+        
+        .tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            padding: 4px 10px;
+            background: #F3F4F6;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #6B7280;
+        }
+        
+        /* 底部 */
+        .footer {
+            background: #001529;
+            color: rgba(255,255,255,0.85);
+            padding: 48px 24px 24px;
+            margin-top: 60px;
+            text-align: center;
+        }
+        
+        .footer h4 {
+            color: white;
+            margin-bottom: 16px;
+        }
+        
+        /* 浮动按钮 */
+        .fab {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #0052D9;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,82,217,0.4);
+            z-index: 1000;
+        }
+        
+        .fab:hover {
+            transform: scale(1.1);
+        }
+        
+        @media (max-width: 768px) {
+            .papers { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .nav-items { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 横幅 -->
+    <div class="banner">
+        🎉 <strong>全球同频·BUZZ脑科学平台</strong> 正式上线！已收录15,000+篇BCI研究论文
+    </div>
+    
+    <!-- 导航 -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">
+                <span class="logo-emoji">🧠</span>
+                全球同频·BUZZ脑科学
+            </div>
+            <div class="nav-items">
+                <a href="#" class="nav-item">脑科学日报</a>
+                <a href="#" class="nav-item">数据库</a>
+                <a href="#" class="nav-item">期刊</a>
+                <a href="#" class="nav-item">智库</a>
+            </div>
+            <button class="lang-btn" onclick="alert('语言切换')">EN | 中文</button>
+        </nav>
+    </header>
+    
+    <!-- 英雄区 -->
+    <section class="hero">
+        <h1>全球同频·连接脑科学</h1>
+        <p>聚焦脑机接口研究和成果转化，充分链接学术与产业界，推动转化和应用</p>
+        <div class="search-box">
+            <input type="text" placeholder="脑科学的问题 问问全球同频">
+            <button>🔍 搜索</button>
+        </div>
+    </section>
+    
+    <!-- 统计 -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div>
+                <div class="stat-number" style="color: #0052D9;">15,234</div>
+                <div class="stat-label">收录论文</div>
+            </div>
+            <div>
+                <div class="stat-number" style="color: #FF6B00;">3,456</div>
+                <div class="stat-label">活跃研究者</div>
+            </div>
+            <div>
+                <div class="stat-number" style="color: #10B981;">892</div>
+                <div class="stat-label">临床试验</div>
+            </div>
+            <div>
+                <div class="stat-number" style="color: #8B5CF6;">45</div>
+                <div class="stat-label">合作机构</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 主内容 -->
+    <main class="main">
+        <h2 class="section-title">BCI最新研究</h2>
+        
+        <div class="papers" id="papers">
+            <!-- JavaScript will fill this -->
+        </div>
+    </main>
+    
+    <!-- 底部 -->
+    <footer class="footer">
+        <h4>全球同频·BUZZ脑科学研究院</h4>
+        <p>BCI Universal Zero Zone Pty Ltd | ABN: 80 695 400 974</p>
+        <p style="margin-top: 16px;">📧 zhouzixuan602@gmail.com | 📞 +61 478 703 945</p>
+        <p style="margin-top: 24px; opacity: 0.65;">© 2026 全球同频·BUZZ脑科学研究院. All rights reserved.</p>
+    </footer>
+    
+    <!-- 返回顶部 -->
+    <div class="fab" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+    
+    <script>
+        const papers = [
+            {
+                date: '2天前',
+                title: '高性能脑机接口实现通信功能',
+                desc: '我们提出了一种新型脑机接口系统，在运动皮层信号解码中达到95%的准确率。对15名闭锁综合征患者的临床试验表明通信速度显著提升。',
+                tags: ['BCI', '临床试验', '通信', '深度学习']
+            },
+            {
+                date: '3天前',
+                title: '深脑刺激显著改善帕金森症状',
+                desc: '本研究评估了50名帕金森病患者的深脑刺激疗效。结果显示12个月后运动症状减少78%。该治疗相比单独药物治疗显示出显著改善。',
+                tags: ['DBS', '帕金森', '治疗', '神经调控']
+            },
+            {
+                date: '4天前',
+                title: '4096通道无线神经接口系统',
+                desc: '我们开发了一个具有4096个记录通道的无线神经接口系统。该设备实现了亚微伏分辨率和30kHz采样率，可用于运动皮层映射。',
+                tags: ['无线', '神经接口', '芯片', '高通道']
+            },
+            {
+                date: '5天前',
+                title: '机器学习提高脑电图运动预测准确率',
+                desc: '使用卷积神经网络，我们在从脑电信号预测运动意图方面达到89%的准确率。我们的算法比传统方法高25%。',
+                tags: ['机器学习', 'EEG', '预测', '运动控制']
+            },
+            {
+                date: '6天前',
+                title: '闭环脑刺激减少90%癫痫发作',
+                desc: '临床试验报告显示，30名患者接受闭环脑刺激治疗后，癫痫发作频率减少90%。响应式神经刺激系统能检测发作开始。',
+                tags: ['闭环', '癫痫', '神经刺激', '治疗']
+            },
+            {
+                date: '1周前',
+                title: '石墨烯电极实现长期稳定神经记录',
+                desc: '石墨烯基电极在慢性神经植入中保持信号质量超过2年。与传统铂电极相比，石墨烯显示出更好的生物相容性。',
+                tags: ['石墨烯', '电极', '生物相容性', '长期植入']
+            }
+        ];
+        
+        const container = document.getElementById('papers');
+        container.innerHTML = papers.map(p => `
+            <div class="paper">
+                <div class="paper-date">${p.date}</div>
+                <h3>${p.title}</h3>
+                <p>${p.desc}</p>
+                <div class="tags">
+                    ${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+                </div>
+            </div>
+        `).join('');
+        
+        console.log('✅ 页面加载成功！显示了', papers.length, '篇论文');
+    </script>
+</body>
+</html>
