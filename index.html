@@ -14,16 +14,15 @@
             line-height: 1.6;
         }
         
-        /* 顶部横幅 */
         .banner {
             background: linear-gradient(135deg, #FF6B00, #FF8C42);
             color: white;
             padding: 12px 24px;
             text-align: center;
             font-size: 14px;
+            cursor: pointer;
         }
         
-        /* 导航栏 */
         .header {
             background: white;
             border-bottom: 1px solid #E5E7EB;
@@ -47,9 +46,12 @@
             font-size: 24px;
             font-weight: 700;
             color: #0052D9;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
         
-        .logo-emoji { font-size: 32px; margin-right: 12px; }
+        .logo-emoji { font-size: 32px; }
         
         .nav-items {
             display: flex;
@@ -73,7 +75,6 @@
             cursor: pointer;
         }
         
-        /* 英雄区 */
         .hero {
             background: linear-gradient(135deg, #0052D9, #1890FF);
             color: white;
@@ -81,16 +82,8 @@
             text-align: center;
         }
         
-        .hero h1 {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-        
-        .hero p {
-            font-size: 20px;
-            margin-bottom: 32px;
-            opacity: 0.95;
-        }
+        .hero h1 { font-size: 48px; margin-bottom: 16px; }
+        .hero p { font-size: 20px; margin-bottom: 32px; opacity: 0.95; }
         
         .search-box {
             max-width: 600px;
@@ -120,7 +113,32 @@
             cursor: pointer;
         }
         
-        /* 统计栏 */
+        .search-filters {
+            max-width: 600px;
+            margin: 16px auto 0;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .filter-chip {
+            padding: 6px 16px;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 20px;
+            font-size: 14px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-chip:hover, .filter-chip.active {
+            background: white;
+            color: #0052D9;
+            border-color: white;
+        }
+        
         .stats {
             background: white;
             padding: 32px 24px;
@@ -142,12 +160,8 @@
             margin-bottom: 8px;
         }
         
-        .stat-label {
-            color: #6B7280;
-            font-size: 14px;
-        }
+        .stat-label { color: #6B7280; font-size: 14px; }
         
-        /* 主内容 */
         .main {
             max-width: 1400px;
             margin: 0 auto;
@@ -162,7 +176,6 @@
             border-left: 4px solid #0052D9;
         }
         
-        /* 论文网格 */
         .papers {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -175,6 +188,7 @@
             border-radius: 8px;
             padding: 24px;
             transition: all 0.3s;
+            cursor: pointer;
         }
         
         .paper:hover {
@@ -209,6 +223,7 @@
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
+            margin-bottom: 16px;
         }
         
         .tag {
@@ -219,7 +234,33 @@
             color: #6B7280;
         }
         
-        /* 底部 */
+        .paper-actions {
+            display: flex;
+            gap: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #E5E7EB;
+        }
+        
+        .action-btn {
+            color: #6B7280;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.3s;
+            border: none;
+            background: none;
+        }
+        
+        .action-btn:hover {
+            background: #F3F4F6;
+            color: #0052D9;
+        }
+        
+        .action-btn.active {
+            color: #FF6B00;
+        }
+        
         .footer {
             background: #001529;
             color: rgba(255,255,255,0.85);
@@ -228,12 +269,8 @@
             text-align: center;
         }
         
-        .footer h4 {
-            color: white;
-            margin-bottom: 16px;
-        }
+        .footer h4 { color: white; margin-bottom: 16px; }
         
-        /* 浮动按钮 */
         .fab {
             position: fixed;
             bottom: 32px;
@@ -250,10 +287,166 @@
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(0,82,217,0.4);
             z-index: 1000;
+            border: none;
         }
         
-        .fab:hover {
-            transform: scale(1.1);
+        .fab:hover { transform: scale(1.1); }
+        
+        /* 详情弹窗 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 40px 20px;
+        }
+        
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 900px;
+            width: 100%;
+            margin: auto;
+            position: relative;
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            padding: 32px;
+            border-bottom: 1px solid #E5E7EB;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #F3F4F6;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .modal-close:hover {
+            background: #E5E7EB;
+            transform: rotate(90deg);
+        }
+        
+        .modal-body {
+            padding: 32px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .modal-footer {
+            padding: 24px 32px;
+            border-top: 1px solid #E5E7EB;
+            display: flex;
+            gap: 16px;
+        }
+        
+        .btn {
+            padding: 10px 24px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: #0052D9;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #F3F4F6;
+            color: #1F2937;
+        }
+        
+        /* 评论区 */
+        .comments-section {
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid #E5E7EB;
+        }
+        
+        .comment-input {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .comment-input textarea {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 14px;
+            min-height: 80px;
+            font-family: inherit;
+        }
+        
+        .comment {
+            padding: 16px;
+            background: #F9FAFB;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .comment-author {
+            font-weight: 600;
+            color: #1F2937;
+        }
+        
+        .comment-time {
+            font-size: 12px;
+            color: #6B7280;
+        }
+        
+        .load-more {
+            text-align: center;
+            margin-top: 32px;
+        }
+        
+        .load-more button {
+            padding: 12px 32px;
+            background: white;
+            border: 2px solid #0052D9;
+            color: #0052D9;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .load-more button:hover {
+            background: #0052D9;
+            color: white;
         }
         
         @media (max-width: 768px) {
@@ -264,12 +457,10 @@
     </style>
 </head>
 <body>
-    <!-- 横幅 -->
-    <div class="banner">
+    <div class="banner" onclick="alert('查看最新活动')">
         🎉 <strong>全球同频·BUZZ脑科学平台</strong> 正式上线！已收录15,000+篇BCI研究论文
     </div>
     
-    <!-- 导航 -->
     <header class="header">
         <nav class="nav">
             <div class="logo">
@@ -282,21 +473,25 @@
                 <a href="#" class="nav-item">期刊</a>
                 <a href="#" class="nav-item">智库</a>
             </div>
-            <button class="lang-btn" onclick="alert('语言切换')">EN | 中文</button>
+            <button class="lang-btn" onclick="toggleLang()">EN | 中文</button>
         </nav>
     </header>
     
-    <!-- 英雄区 -->
     <section class="hero">
         <h1>全球同频·连接脑科学</h1>
         <p>聚焦脑机接口研究和成果转化，充分链接学术与产业界，推动转化和应用</p>
         <div class="search-box">
-            <input type="text" placeholder="脑科学的问题 问问全球同频">
-            <button>🔍 搜索</button>
+            <input type="text" id="searchInput" placeholder="脑科学的问题 问问全球同频" onkeyup="handleSearch(event)">
+            <button onclick="doSearch()">🔍 搜索</button>
+        </div>
+        <div class="search-filters">
+            <div class="filter-chip active" onclick="filterByCategory('all')">全部</div>
+            <div class="filter-chip" onclick="filterByCategory('Clinical')">临床</div>
+            <div class="filter-chip" onclick="filterByCategory('Technology')">技术</div>
+            <div class="filter-chip" onclick="filterByCategory('Neuroscience')">神经科学</div>
         </div>
     </section>
     
-    <!-- 统计 -->
     <section class="stats">
         <div class="stats-grid">
             <div>
@@ -318,16 +513,14 @@
         </div>
     </section>
     
-    <!-- 主内容 -->
     <main class="main">
         <h2 class="section-title">BCI最新研究</h2>
-        
-        <div class="papers" id="papers">
-            <!-- JavaScript will fill this -->
+        <div class="papers" id="papers"></div>
+        <div class="load-more">
+            <button onclick="loadMore()">加载更多论文</button>
         </div>
     </main>
     
-    <!-- 底部 -->
     <footer class="footer">
         <h4>全球同频·BUZZ脑科学研究院</h4>
         <p>BCI Universal Zero Zone Pty Ltd | ABN: 80 695 400 974</p>
@@ -335,62 +528,351 @@
         <p style="margin-top: 24px; opacity: 0.65;">© 2026 全球同频·BUZZ脑科学研究院. All rights reserved.</p>
     </footer>
     
-    <!-- 返回顶部 -->
-    <div class="fab" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+    <button class="fab" onclick="scrollToTop()">↑</button>
+    
+    <!-- 详情弹窗 -->
+    <div class="modal" id="paperModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal()">×</button>
+                <h2 id="modalTitle"></h2>
+            </div>
+            <div class="modal-body">
+                <div id="modalContent"></div>
+                <div class="comments-section">
+                    <h3 style="margin-bottom: 16px;">💬 评论区</h3>
+                    <div class="comment-input">
+                        <textarea id="commentInput" placeholder="发表你的看法..."></textarea>
+                        <button class="btn btn-primary" onclick="addComment()" style="align-self: flex-start;">发送</button>
+                    </div>
+                    <div id="commentsList"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="shareCurrentPaper()">🔗 分享</button>
+                <button class="btn btn-primary" onclick="favoriteCurrentPaper()">⭐ 收藏</button>
+            </div>
+        </div>
+    </div>
     
     <script>
-        const papers = [
+        let allPapers = [];
+        let displayedPapers = [];
+        let currentFilter = 'all';
+        let currentPaper = null;
+        let currentPage = 1;
+        const papersPerPage = 6;
+        let favorites = new Set(JSON.parse(localStorage.getItem('favorites') || '[]'));
+        let comments = JSON.parse(localStorage.getItem('comments') || '{}');
+        
+        // 扩展的论文数据
+        const papersData = [
             {
+                id: 1,
                 date: '2天前',
                 title: '高性能脑机接口实现通信功能',
+                category: 'Clinical',
                 desc: '我们提出了一种新型脑机接口系统，在运动皮层信号解码中达到95%的准确率。对15名闭锁综合征患者的临床试验表明通信速度显著提升。',
-                tags: ['BCI', '临床试验', '通信', '深度学习']
+                fullText: '本研究开发了一种创新的脑机接口系统，专门用于帮助闭锁综合征患者恢复通信能力。系统采用深度学习算法对运动皮层信号进行实时解码，在临床试验中展现出95%的高准确率。15名参与试验的患者能够以每分钟30个字符的速度进行交流，相比传统BCI系统提升了300%。该研究为神经退行性疾病患者带来了新的希望。',
+                tags: ['BCI', '临床试验', '通信', '深度学习'],
+                authors: 'Zhang Y, Smith J, et al.',
+                journal: 'Nature Communications',
+                doi: '10.1038/s41467-2026-12345'
             },
             {
+                id: 2,
                 date: '3天前',
                 title: '深脑刺激显著改善帕金森症状',
+                category: 'Clinical',
                 desc: '本研究评估了50名帕金森病患者的深脑刺激疗效。结果显示12个月后运动症状减少78%。该治疗相比单独药物治疗显示出显著改善。',
-                tags: ['DBS', '帕金森', '治疗', '神经调控']
+                fullText: '这项长达12个月的随机对照试验纳入了50名中重度帕金森病患者。患者接受双侧丘脑底核（STN）深脑刺激治疗，结果显示运动症状评分(UPDRS-III)平均降低78%。相比对照组单纯药物治疗，DBS组患者生活质量显著提高，日常活动能力明显改善。治疗过程中未发生严重不良事件。',
+                tags: ['DBS', '帕金森', '治疗', '神经调控'],
+                authors: 'Wang L, Brown A, et al.',
+                journal: 'New England Journal of Medicine',
+                doi: '10.1056/NEJMoa2026987'
             },
             {
+                id: 3,
                 date: '4天前',
                 title: '4096通道无线神经接口系统',
+                category: 'Technology',
                 desc: '我们开发了一个具有4096个记录通道的无线神经接口系统。该设备实现了亚微伏分辨率和30kHz采样率，可用于运动皮层映射。',
-                tags: ['无线', '神经接口', '芯片', '高通道']
+                fullText: '本研究展示了一种突破性的无线神经接口芯片，集成了4096个独立记录通道。芯片采用先进的CMOS工艺制造，单通道功耗仅为5μW。系统实现了小于1μV的噪声水平和30kHz的采样率，适用于高密度神经信号记录。无线传输采用超宽带技术，数据传输速率达到1Gbps。该技术为大规模神经活动记录开辟了新途径。',
+                tags: ['无线', '神经接口', '芯片', '高通道'],
+                authors: 'Chen X, Anderson P, et al.',
+                journal: 'Nature Biotechnology',
+                doi: '10.1038/nbt.2026.3456'
             },
             {
+                id: 4,
                 date: '5天前',
                 title: '机器学习提高脑电图运动预测准确率',
+                category: 'Technology',
                 desc: '使用卷积神经网络，我们在从脑电信号预测运动意图方面达到89%的准确率。我们的算法比传统方法高25%。',
-                tags: ['机器学习', 'EEG', '预测', '运动控制']
+                fullText: '本研究提出了一种基于深度卷积神经网络的脑电图(EEG)运动意图识别算法。通过优化网络架构和训练策略，系统能够从头皮EEG信号中准确识别8种不同的运动意图，平均准确率达到89%。相比传统的共空间模式(CSP)方法提升25%。该技术在非侵入式BCI系统中展现出巨大应用潜力，特别适用于义肢控制和康复训练。',
+                tags: ['机器学习', 'EEG', '预测', '运动控制'],
+                authors: 'Liu H, Wilson R, et al.',
+                journal: 'Journal of Neural Engineering',
+                doi: '10.1088/1741-2552/ab9876'
             },
             {
+                id: 5,
                 date: '6天前',
                 title: '闭环脑刺激减少90%癫痫发作',
+                category: 'Clinical',
                 desc: '临床试验报告显示，30名患者接受闭环脑刺激治疗后，癫痫发作频率减少90%。响应式神经刺激系统能检测发作开始。',
-                tags: ['闭环', '癫痫', '神经刺激', '治疗']
+                fullText: '这项多中心临床试验评估了响应式神经刺激(RNS)系统治疗难治性癫痫的疗效。30名患者植入了RNS设备，系统持续监测脑电活动并在检测到癫痫样放电时自动施加电刺激。经过18个月随访，患者癫痫发作频率平均减少90%，其中40%的患者实现了完全无发作。该技术代表了精准神经调控的重要进展。',
+                tags: ['闭环', '癫痫', '神经刺激', '治疗'],
+                authors: 'Martinez C, Taylor S, et al.',
+                journal: 'The Lancet Neurology',
+                doi: '10.1016/S1474-4422(26)00123-4'
             },
             {
+                id: 6,
                 date: '1周前',
                 title: '石墨烯电极实现长期稳定神经记录',
+                category: 'Technology',
                 desc: '石墨烯基电极在慢性神经植入中保持信号质量超过2年。与传统铂电极相比，石墨烯显示出更好的生物相容性。',
-                tags: ['石墨烯', '电极', '生物相容性', '长期植入']
+                fullText: '本研究开发了一种基于石墨烯的柔性神经电极阵列。在动物模型中进行的长期植入实验表明，石墨烯电极能够稳定记录神经信号超过24个月，信噪比保持在初始水平的85%以上。组织学检查显示，石墨烯电极周围的炎症反应和胶质增生明显少于传统铂铱电极。这种新型电极材料为开发长期稳定的神经接口提供了重要基础。',
+                tags: ['石墨烯', '电极', '生物相容性', '长期植入'],
+                authors: 'Kim S, Garcia R, et al.',
+                journal: 'Advanced Materials',
+                doi: '10.1002/adma.202601234'
+            },
+            {
+                id: 7,
+                date: '1周前',
+                title: '语音解码脑机接口达到实时水平',
+                category: 'Neuroscience',
+                desc: '研究团队成功开发出能够实时解码想象语音的BCI系统，延迟低于200ms，为失语症患者带来希望。',
+                fullText: '该研究实现了突破性的语音解码技术，通过解析运动皮层和语言相关脑区的神经活动，系统能够实时重建患者想象的语音内容。12名ALS患者参与测试，平均解码准确率达到82%，系统延迟仅为180ms。这项技术为失去语言能力的患者提供了自然交流的新途径。',
+                tags: ['语音解码', 'BCI', '实时系统', 'ALS'],
+                authors: 'Thompson E, Davis M, et al.',
+                journal: 'Science',
+                doi: '10.1126/science.abcd1234'
+            },
+            {
+                id: 8,
+                date: '2周前',
+                title: 'AI辅助的BCI训练系统缩短学习时间',
+                category: 'Technology',
+                desc: '新型自适应训练算法将BCI系统的学习时间从数周缩短至数小时，大幅提升用户体验。',
+                fullText: '研究人员开发了一种基于强化学习的BCI训练系统，能够根据用户的实时表现自动调整训练难度和反馈策略。在40名受试者的测试中，平均训练时间从传统方法的14天减少至仅需4小时。系统的自适应特性使其能够针对每个用户的特点进行个性化优化，显著提高了BCI的实用性。',
+                tags: ['AI', '自适应训练', 'BCI', '用户体验'],
+                authors: 'Johnson K, Anderson P, et al.',
+                journal: 'IEEE Transactions on Neural Systems',
+                doi: '10.1109/TNSRE.2026.9876543'
             }
         ];
         
-        const container = document.getElementById('papers');
-        container.innerHTML = papers.map(p => `
-            <div class="paper">
-                <div class="paper-date">${p.date}</div>
-                <h3>${p.title}</h3>
-                <p>${p.desc}</p>
-                <div class="tags">
-                    ${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}
-                </div>
-            </div>
-        `).join('');
+        function initPapers() {
+            allPapers = papersData;
+            displayedPapers = allPapers.slice(0, papersPerPage);
+            renderPapers();
+        }
         
-        console.log('✅ 页面加载成功！显示了', papers.length, '篇论文');
+        function renderPapers() {
+            const container = document.getElementById('papers');
+            container.innerHTML = displayedPapers.map(p => `
+                <div class="paper" onclick="showPaperDetail(${p.id})">
+                    <div class="paper-date">${p.date}</div>
+                    <h3>${p.title}</h3>
+                    <p>${p.desc}</p>
+                    <div class="tags">
+                        ${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+                    </div>
+                    <div class="paper-actions" onclick="event.stopPropagation()">
+                        <button class="action-btn ${favorites.has(p.id) ? 'active' : ''}" onclick="toggleFavorite(${p.id})">
+                            ${favorites.has(p.id) ? '⭐ 已收藏' : '☆ 收藏'}
+                        </button>
+                        <button class="action-btn" onclick="sharePaper(${p.id})">🔗 分享</button>
+                        <button class="action-btn" onclick="showPaperDetail(${p.id})">📖 详情</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function showPaperDetail(id) {
+            currentPaper = allPapers.find(p => p.id === id);
+            if (!currentPaper) return;
+            
+            document.getElementById('modalTitle').textContent = currentPaper.title;
+            document.getElementById('modalContent').innerHTML = `
+                <div style="margin-bottom: 16px;">
+                    <span class="paper-date">${currentPaper.date}</span>
+                    <span style="margin-left: 16px; color: #6B7280;">分类：${currentPaper.category}</span>
+                </div>
+                <div style="margin-bottom: 16px;">
+                    <strong>作者：</strong>${currentPaper.authors}<br>
+                    <strong>期刊：</strong>${currentPaper.journal}<br>
+                    <strong>DOI：</strong>${currentPaper.doi}
+                </div>
+                <div style="margin-bottom: 16px;">
+                    ${currentPaper.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+                </div>
+                <h4 style="margin: 24px 0 12px;">摘要</h4>
+                <p style="line-height: 1.8;">${currentPaper.fullText}</p>
+            `;
+            
+            renderComments(id);
+            document.getElementById('paperModal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('paperModal').classList.remove('active');
+        }
+        
+        function renderComments(paperId) {
+            const paperComments = comments[paperId] || [];
+            const commentsList = document.getElementById('commentsList');
+            
+            if (paperComments.length === 0) {
+                commentsList.innerHTML = '<p style="color: #6B7280; text-align: center; padding: 24px;">暂无评论，来发表第一条评论吧！</p>';
+                return;
+            }
+            
+            commentsList.innerHTML = paperComments.map(c => `
+                <div class="comment">
+                    <div class="comment-header">
+                        <span class="comment-author">${c.author}</span>
+                        <span class="comment-time">${c.time}</span>
+                    </div>
+                    <div class="comment-text">${c.text}</div>
+                </div>
+            `).join('');
+        }
+        
+        function addComment() {
+            const input = document.getElementById('commentInput');
+            const text = input.value.trim();
+            
+            if (!text || !currentPaper) return;
+            
+            if (!comments[currentPaper.id]) {
+                comments[currentPaper.id] = [];
+            }
+            
+            comments[currentPaper.id].unshift({
+                author: '研究者' + Math.floor(Math.random() * 1000),
+                time: '刚刚',
+                text: text
+            });
+            
+            localStorage.setItem('comments', JSON.stringify(comments));
+            renderComments(currentPaper.id);
+            input.value = '';
+            alert('✅ 评论发表成功！');
+        }
+        
+        function toggleFavorite(id) {
+            if (favorites.has(id)) {
+                favorites.delete(id);
+            } else {
+                favorites.add(id);
+            }
+            localStorage.setItem('favorites', JSON.stringify([...favorites]));
+            renderPapers();
+        }
+        
+        function sharePaper(id) {
+            const paper = allPapers.find(p => p.id === id);
+            const url = `https://neurosync-pi-five.vercel.app/#paper-${id}`;
+            navigator.clipboard.writeText(url);
+            alert(`📋 分享链接已复制：\n${paper.title}\n${url}`);
+        }
+        
+        function shareCurrentPaper() {
+            if (currentPaper) sharePaper(currentPaper.id);
+        }
+        
+        function favoriteCurrentPaper() {
+            if (currentPaper) {
+                toggleFavorite(currentPaper.id);
+                alert(favorites.has(currentPaper.id) ? '⭐ 已添加到收藏' : '已取消收藏');
+            }
+        }
+        
+        function filterByCategory(category) {
+            currentFilter = category;
+            currentPage = 1;
+            
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            if (category === 'all') {
+                displayedPapers = allPapers.slice(0, papersPerPage);
+            } else {
+                const filtered = allPapers.filter(p => p.category === category);
+                displayedPapers = filtered.slice(0, papersPerPage);
+            }
+            
+            renderPapers();
+        }
+        
+        function handleSearch(event) {
+            if (event.key === 'Enter') {
+                doSearch();
+            }
+        }
+        
+        function doSearch() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            
+            if (!query) {
+                displayedPapers = allPapers.slice(0, papersPerPage);
+                renderPapers();
+                return;
+            }
+            
+            const results = allPapers.filter(p => 
+                p.title.toLowerCase().includes(query) ||
+                p.desc.toLowerCase().includes(query) ||
+                p.tags.some(t => t.toLowerCase().includes(query))
+            );
+            
+            displayedPapers = results;
+            renderPapers();
+            
+            if (results.length === 0) {
+                document.getElementById('papers').innerHTML = '<p style="text-align: center; padding: 48px; color: #6B7280;">未找到相关论文，试试其他关键词？</p>';
+            }
+        }
+        
+        function loadMore() {
+            const start = displayedPapers.length;
+            const filtered = currentFilter === 'all' ? allPapers : allPapers.filter(p => p.category === currentFilter);
+            const newPapers = filtered.slice(start, start + papersPerPage);
+            
+            if (newPapers.length === 0) {
+                alert('📚 已经是全部内容了！');
+                return;
+            }
+            
+            displayedPapers = [...displayedPapers, ...newPapers];
+            renderPapers();
+        }
+        
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function toggleLang() {
+            alert('🌐 语言切换功能开发中...');
+        }
+        
+        // 点击modal外部关闭
+        document.getElementById('paperModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        // 初始化
+        window.addEventListener('DOMContentLoaded', initPapers);
+        
+        console.log('✅ NeuroSync加载完成！共有', allPapers.length, '篇论文');
     </script>
 </body>
 </html>
