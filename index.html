@@ -468,11 +468,11 @@
                 全球同频·BUZZ脑科学
             </div>
             <div class="nav-items">
-                <a href="#" class="nav-item">脑科学日报</a>
-                <a href="#" class="nav-item">数据库</a>
-                <a href="#" class="nav-item">期刊</a>
-                <a href="#" class="nav-item">智库</a>
-            </div>
+    <a href="#" class="nav-item" onclick="navigate('daily'); return false;">脑科学日报</a>
+    <a href="#" class="nav-item" onclick="navigate('database'); return false;">数据库</a>
+    <a href="#" class="nav-item" onclick="navigate('journal'); return false;">期刊</a>
+    <a href="#" class="nav-item" onclick="navigate('library'); return false;">智库</a>
+</div>
             <button class="lang-btn" onclick="toggleLang()">EN | 中文</button>
         </nav>
     </header>
@@ -554,8 +554,135 @@
             </div>
         </div>
     </div>
+    // 在现有代码的最后，添加这些功能
+
+// ========== 页面切换系统 ==========
+let currentPage = 'papers'; // 当前页面
+
+function navigate(page) {
+    currentPage = page;
     
-    <script>
+    // 隐藏所有内容
+    document.getElementById('papers').style.display = 'none';
+    
+    // 根据页面显示对应内容
+    const container = document.getElementById('papers');
+    
+    switch(page) {
+        case 'daily':
+            renderNewsPage();
+            break;
+        case 'database':
+            renderDatabasePage();
+            break;
+        case 'journal':
+            renderJournalPage();
+            break;
+        case 'library':
+            renderLibraryPage();
+            break;
+        default:
+            initPapers(); // 默认显示论文
+    }
+    
+    scrollToTop();
+}
+
+// ========== 渲染新闻页面 ==========
+function renderNewsPage() {
+    const container = document.getElementById('papers');
+    const sectionTitle = document.querySelector('.section-title');
+    sectionTitle.textContent = '📰 脑科学日报';
+    
+    container.innerHTML = newsData.map(news => `
+        <div class="paper">
+            <div class="paper-date">${news.date}</div>
+            <span class="tag" style="margin-bottom: 8px;">${news.badge}</span>
+            <h3>${news.title}</h3>
+            <p>${news.desc}</p>
+            <div class="paper-actions">
+                <button class="action-btn" onclick="showNewsDetail('${news.title}', '${news.desc}')">📖 查看详情</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ========== 渲染数据库页面 ==========
+function renderDatabasePage() {
+    const container = document.getElementById('papers');
+    const sectionTitle = document.querySelector('.section-title');
+    sectionTitle.textContent = '🔬 HOPE数据库';
+    
+    container.innerHTML = databaseCategories.map(db => `
+        <div class="paper">
+            <div style="font-size: 48px; margin-bottom: 12px;">${db.icon}</div>
+            <span class="tag" style="margin-bottom: 8px;">${db.badge}</span>
+            <h3>${db.title}</h3>
+            <p>${db.desc}</p>
+            <div class="tags">
+                ${db.features.map(f => `<span class="tag">✓ ${f}</span>`).join('')}
+            </div>
+            <div class="paper-actions">
+                <button class="action-btn" onclick="alert('进入${db.title}')">进入数据库 →</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ========== 渲染期刊页面 ==========
+function renderJournalPage() {
+    const container = document.getElementById('papers');
+    const sectionTitle = document.querySelector('.section-title');
+    sectionTitle.textContent = '📖 iMeta期刊';
+    
+    container.innerHTML = journalsData.map(journal => `
+        <div class="paper">
+            <div class="paper-date" style="background: linear-gradient(135deg, #FF6B00, #FF8C42); color: white;">${journal.badge}</div>
+            <h3>${journal.name}</h3>
+            <p style="color: #6B7280; font-size: 13px; margin-bottom: 8px;">${journal.publisher}</p>
+            <p>${journal.scope}</p>
+            <div class="tags">
+                ${journal.topics.slice(0, 4).map(t => `<span class="tag">${t}</span>`).join('')}
+            </div>
+            <div class="paper-actions">
+                <button class="action-btn" onclick="window.open('${journal.submission}')">投稿指南</button>
+                <button class="action-btn" onclick="alert('${journal.contact}')">联系编辑</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ========== 渲染智库页面 ==========
+function renderLibraryPage() {
+    const container = document.getElementById('papers');
+    const sectionTitle = document.querySelector('.section-title');
+    sectionTitle.textContent = '🎓 热心肠智库';
+    
+    container.innerHTML = thinkTankReports.map(report => `
+        <div class="paper">
+            <div style="font-size: 48px; margin-bottom: 12px;">${report.icon}</div>
+            <span class="tag" style="margin-bottom: 8px;">${report.badge}</span>
+            <h3>${report.title}</h3>
+            <p style="font-size: 13px; color: #6B7280; margin-bottom: 8px;">
+                ${report.author} | ${report.pages}页 | ${report.price}
+            </p>
+            <p>${report.summary}</p>
+            <div class="tags">
+                ${report.tags.slice(0, 4).map(t => `<span class="tag">${t}</span>`).join('')}
+            </div>
+            <div class="paper-actions">
+                <button class="action-btn" onclick="alert('${report.title}\\n\\n${report.price}\\n\\n点击确定跳转下载')">
+                    ${report.price === '免费下载' ? '📥 免费下载' : '💳 购买下载'}
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ========== 新闻详情 ==========
+function showNewsDetail(title, desc) {
+    alert(`📰 ${title}\n\n${desc}\n\n（完整内容开发中...）`);
+}    <script>
         let allPapers = [];
         let displayedPapers = [];
         let currentFilter = 'all';
@@ -2478,8 +2605,85 @@ function initPapers() {
         
         // 初始化
         window.addEventListener('DOMContentLoaded', initPapers);
-        
-        console.log('✅ NeuroSync加载完成！共有', allPapers.length, '篇论文');
+        // ========== 页面切换系统 ==========
+let currentPageView = 'papers';
+
+function navigate(page) {
+    currentPageView = page;
+    const container = document.getElementById('papers');
+    const sectionTitle = document.querySelector('.section-title');
+    
+    switch(page) {
+        case 'daily':
+            sectionTitle.textContent = '📰 脑科学日报';
+            container.innerHTML = newsData.map(news => `
+                <div class="paper">
+                    <div class="paper-date">${news.date}</div>
+                    <span class="tag" style="margin-bottom: 8px;">${news.badge}</span>
+                    <h3>${news.title}</h3>
+                    <p>${news.desc}</p>
+                    <div class="paper-actions">
+                        <button class="action-btn">📖 查看详情</button>
+                    </div>
+                </div>
+            `).join('');
+            break;
+            
+        case 'database':
+            sectionTitle.textContent = '🔬 HOPE数据库';
+            container.innerHTML = databaseCategories.map(db => `
+                <div class="paper">
+                    <div style="font-size: 48px; margin-bottom: 12px;">${db.icon}</div>
+                    <span class="tag" style="margin-bottom: 8px;">${db.badge}</span>
+                    <h3>${db.title}</h3>
+                    <p>${db.desc}</p>
+                    <div class="tags">
+                        ${db.features.map(f => `<span class="tag">✓ ${f}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+            break;
+            
+        case 'journal':
+            sectionTitle.textContent = '📖 iMeta期刊';
+            container.innerHTML = journalsData.map(journal => `
+                <div class="paper">
+                    <div class="paper-date" style="background: linear-gradient(135deg, #FF6B00, #FF8C42); color: white;">${journal.badge}</div>
+                    <h3>${journal.name}</h3>
+                    <p style="color: #6B7280; font-size: 13px; margin-bottom: 8px;">${journal.publisher}</p>
+                    <p>${journal.scope}</p>
+                    <div class="tags">
+                        ${journal.topics.slice(0, 4).map(t => `<span class="tag">${t}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+            break;
+            
+        case 'library':
+            sectionTitle.textContent = '🎓 热心肠智库';
+            container.innerHTML = thinkTankReports.map(report => `
+                <div class="paper">
+                    <div style="font-size: 48px; margin-bottom: 12px;">${report.icon}</div>
+                    <span class="tag" style="margin-bottom: 8px;">${report.badge}</span>
+                    <h3>${report.title}</h3>
+                    <p style="font-size: 13px; color: #6B7280; margin-bottom: 8px;">
+                        ${report.author} | ${report.pages}页 | ${report.price}
+                    </p>
+                    <p>${report.summary}</p>
+                    <div class="tags">
+                        ${report.tags.slice(0, 4).map(t => `<span class="tag">${t}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+            break;
+            
+        default:
+            sectionTitle.textContent = 'BCI最新研究';
+            initPapers();
+    }
+    
+    scrollToTop();
+}        console.log('✅ NeuroSync加载完成！共有', allPapers.length, '篇论文');
     </script>
 </body>
 </html>
